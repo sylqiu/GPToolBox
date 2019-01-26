@@ -1,8 +1,10 @@
 # Personal Fork of GPtoolbox with some of my own functions from various projects
 
-New functions:
+Main New Functions:
 - lsqc_solver: least square quasiconformal mapping solver for given Beltrami coefficients
 - bdsv: bounded singular value quasiconformal mapping solver
+Others:
+- GPP: some mesh utility tools
 
 
 
