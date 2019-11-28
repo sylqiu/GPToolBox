@@ -32,7 +32,7 @@ rhs = -L(:,b)*bc + rhs;
 rhs(b,:) = bc;
 L(b,:) = 0;
 L(:,b) = 0;
-for ind = 1:size(b,1)
+for ind = 1:length(b)
     L(b(ind),b(ind)) = 1;
 end
 
