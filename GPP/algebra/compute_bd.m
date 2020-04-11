@@ -26,17 +26,32 @@ function bd = compute_bd(face)
 % amd stores halfedge information, interior edge appear twice in amd,
 % while boundary edge appear once in amd. We use this to trace boundary. 
 % 
-% currently, there is problem for multiple boundary mesh. Some boundary may
-% be missing.
 [am,amd] = compute_adjacency_matrix(face);
-md = am - (amd>0)*2;
-[I,~,~] = find(md == -1);
-[~,Ii] = sort(I);
-bd = zeros(size(I));
+md = am - (amd>0) * 2;
+md = md == -1;
 
-for i = 1:size(I,1)
-    k = Ii(i);
-    bd(i) = I(k);
+% number of boundary
+bd = cell(1);
+k = 1;
+[boundary_list, ~] = find(md);
+curr_v = boundary_list(1);
+boundary_list = setdiff(boundary_list, curr_v);
+bd{1} = [bd{1}; curr_v];
+% trace through boundary
+while ~isempty(boundary_list) 
+    neighbors = find(md(curr_v, :));
+    if sum(ismember(neighbors, bd{k})) == 0 % boundary not yet closed
+        curr_v = neighbors;
+    else
+        curr_v = boundary_list(1);
+        k = k+1;
+        bd{k} = [];
+        
+    end
+    boundary_list = setdiff(boundary_list, curr_v);
+    bd{k} = [bd{k}; curr_v];
+    
+    
 end
 
 end
